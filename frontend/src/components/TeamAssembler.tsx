@@ -174,7 +174,7 @@ export default function TeamAssembler({ availableSkills = [] }: TeamAssemblerPro
             border: '1px solid rgba(255, 255, 255, 0.15)'
           }}
         >
-          <Sparkles size={16} /> {loading ? 'Calculating...' : 'Calculate Optimal Team Graph'}
+          <Sparkles size={16} /> {loading ? 'Calculating...' : 'Calculate Optimal Teams'}
         </button>
       </div>
 
