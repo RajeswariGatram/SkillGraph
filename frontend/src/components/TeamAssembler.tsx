@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Users, CheckCircle2 } from 'lucide-react';
+import { Sparkles, Users, CheckCircle2, Plus, ChevronDown, ChevronUp, Building2, Mail } from 'lucide-react';
 import { assembleTeam } from '../services/api';
 import { Skill } from '../types';
 
@@ -23,14 +23,17 @@ export interface TeamAssembleResponse {
 
 export interface TeamAssemblerProps {
   availableSkills?: Skill[];
+  onOpenAddSkill?: () => void;
 }
 
-export default function TeamAssembler({ availableSkills = [] }: TeamAssemblerProps) {
+export default function TeamAssembler({ availableSkills = [], onOpenAddSkill }: TeamAssemblerProps) {
   const [selectedSkills, setSelectedSkills] = useState<string[]>(['FastAPI', 'React.js', 'Cypher & CognoDB']);
   const [teamSize, setTeamSize] = useState<number>(2);
   const [loading, setLoading] = useState<boolean>(false);
   const [result, setResult] = useState<TeamAssembleResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [activeMemberKey, setActiveMemberKey] = useState<string | null>(null);
 
   const toggleSkill = (skillName: string) => {
     if (selectedSkills.includes(skillName)) {
@@ -68,9 +71,33 @@ export default function TeamAssembler({ availableSkills = [] }: TeamAssemblerPro
 
         {/* Header row: Label & Team Size Input */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexWrap: 'wrap', gap: '12px' }}>
-          <label style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            Select Required Project Skills
-          </label>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <label style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              REQUIRED SKILLS
+            </label>
+            {onOpenAddSkill && (
+              <button
+                type="button"
+                onClick={onOpenAddSkill}
+                title="Add New Skill"
+                style={{
+                  width: '24px',
+                  height: '24px',
+                  borderRadius: '50%',
+                  background: 'rgba(139, 92, 246, 0.2)',
+                  color: 'var(--accent-purple)',
+                  border: '1px solid rgba(139, 92, 246, 0.4)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <Plus size={14} />
+              </button>
+            )}
+          </div>
 
           {/* Custom Stepper Selector */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(5, 8, 17, 0.6)', padding: '5px 12px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
@@ -127,8 +154,18 @@ export default function TeamAssembler({ availableSkills = [] }: TeamAssemblerPro
           </div>
         </div>
 
-        {/* Skill Selector Chips */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '16px' }}>
+        {/* Skill Selector Chips Container */}
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '8px',
+            marginBottom: '16px',
+            maxHeight: isExpanded ? '1000px' : '82px',
+            overflow: 'hidden',
+            transition: 'max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1)'
+          }}
+        >
           {availableSkills.map(sk => {
             const isSelected = selectedSkills.includes(sk.name);
             return (
@@ -139,43 +176,72 @@ export default function TeamAssembler({ availableSkills = [] }: TeamAssemblerPro
                   padding: '7px 14px',
                   borderRadius: '20px',
                   fontSize: '0.82rem',
-                  fontWeight: 600,
-                  background: isSelected ? 'linear-gradient(135deg, var(--accent-cyan), var(--accent-blue))' : 'rgba(255, 255, 255, 0.04)',
-                  color: isSelected ? '#ffffff' : 'var(--text-secondary)',
+                  fontWeight: isSelected ? 700 : 500,
+                  background: isSelected ? 'rgba(6, 182, 212, 0.2)' : 'rgba(255, 255, 255, 0.04)',
+                  color: isSelected ? 'var(--accent-cyan)' : 'var(--text-secondary)',
                   border: isSelected ? '1px solid var(--accent-cyan)' : '1px solid var(--border-color)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '5px',
-                  boxShadow: isSelected ? '0 4px 12px rgba(6, 182, 212, 0.25)' : 'none'
+                  boxShadow: isSelected ? '0 0 14px rgba(6, 182, 212, 0.3)' : 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
                 }}
               >
-                {isSelected && <CheckCircle2 size={13} />} {sk.name}
+                {isSelected && <CheckCircle2 size={13} color="var(--accent-cyan)" />} {sk.name}
               </button>
             );
           })}
         </div>
 
-        {/* Calculate Button */}
-        <button
-          onClick={() => handleAssemble(teamSize)}
-          disabled={loading || selectedSkills.length === 0}
-          style={{
-            padding: '10px 22px',
-            borderRadius: '10px',
-            background: 'linear-gradient(135deg, var(--accent-cyan), var(--accent-blue))',
-            color: '#ffffff',
-            fontWeight: 700,
-            fontSize: '0.88rem',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            boxShadow: '0 4px 16px rgba(6, 182, 212, 0.3)',
-            opacity: loading || selectedSkills.length === 0 ? 0.5 : 1,
-            border: '1px solid rgba(255, 255, 255, 0.15)'
-          }}
-        >
-          <Sparkles size={16} /> {loading ? 'Calculating...' : 'Calculate Optimal Teams'}
-        </button>
+        {/* Bottom Action Bar: Calculate Button (Left) & Expand Button (Right Aligned) */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
+          <button
+            onClick={() => handleAssemble(teamSize)}
+            disabled={loading || selectedSkills.length === 0}
+            style={{
+              padding: '10px 22px',
+              borderRadius: '10px',
+              background: 'linear-gradient(135deg, var(--accent-cyan), var(--accent-blue))',
+              color: '#ffffff',
+              fontWeight: 700,
+              fontSize: '0.88rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              boxShadow: '0 4px 16px rgba(6, 182, 212, 0.3)',
+              opacity: loading || selectedSkills.length === 0 ? 0.5 : 1,
+              border: '1px solid rgba(255, 255, 255, 0.15)'
+            }}
+          >
+            <Sparkles size={16} /> {loading ? 'Calculating...' : 'Calculate Optimal Teams'}
+          </button>
+
+          {/* Icon-only expand button right-aligned with Calculate button */}
+          {availableSkills.length > 8 && (
+            <button
+              type="button"
+              onClick={() => setIsExpanded(!isExpanded)}
+              title={isExpanded ? "Collapse Skills" : "Expand Skills"}
+              style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: '50%',
+                background: 'rgba(6, 182, 212, 0.15)',
+                border: '1px solid rgba(6, 182, 212, 0.35)',
+                color: 'var(--accent-cyan)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Clean Spinner Only */}
@@ -221,77 +287,108 @@ export default function TeamAssembler({ availableSkills = [] }: TeamAssemblerPro
               {result.recommended_partnerships.map((path, idx) => (
                 <div key={idx} className="glow-card" style={{ padding: '22px' }}>
                   {/* Team Option Header */}
-                  <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--accent-cyan)', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <Users size={15} /> RECOMMENDED TEAM OPTION #{idx + 1}
+                  <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--accent-cyan)', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Users size={15} /> #{idx + 1}
                   </div>
 
                   {/* Teammate Cards Grid */}
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
-                    {path.members && path.members.map((m, mIdx) => (
-                      <div
-                        key={m.id || mIdx}
-                        style={{
-                          background: 'rgba(15, 23, 42, 0.6)',
-                          border: '1px solid rgba(255, 255, 255, 0.08)',
-                          borderRadius: '12px',
-                          padding: '16px',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'space-between'
-                        }}
-                      >
-                        <div>
-                          {/* Member Header */}
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-                            <div style={{
-                              width: '38px',
-                              height: '38px',
-                              borderRadius: '50%',
-                              background: 'linear-gradient(135deg, var(--accent-cyan), var(--accent-blue))',
-                              color: '#ffffff',
-                              fontWeight: 800,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              fontSize: '1rem',
-                              flexShrink: 0,
-                              boxShadow: '0 4px 10px rgba(6, 182, 212, 0.25)'
-                            }}>
-                              {m.name ? m.name.charAt(0) : 'E'}
-                            </div>
-                            <div>
-                              <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#ffffff' }}>{m.name}</h4>
-                              <span style={{ fontSize: '0.75rem', color: 'var(--accent-cyan)', fontWeight: 600 }}>{m.title}</span>
-                            </div>
-                          </div>
+                    {path.members && path.members.map((m, mIdx) => {
+                      const memberKey = `${idx}-${mIdx}-${m.id || m.name}`;
+                      const isMemberExpanded = activeMemberKey === memberKey;
+                      const matchedSkills = m.skills?.filter(sk => selectedSkills.includes(sk)) || [];
+                      const displaySkills = isMemberExpanded ? (m.skills || []) : (matchedSkills.length > 0 ? matchedSkills : (m.skills || []));
 
-                          {/* Dept & Email */}
-                          <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: '4px', marginBottom: '12px' }}>
-                            <div style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>📁 {m.department || 'Engineering'}</div>
-                            <div>✉️ {m.email}</div>
-                          </div>
-                        </div>
+                      return (
+                        <div
+                          key={memberKey}
+                          onClick={() => setActiveMemberKey(isMemberExpanded ? null : memberKey)}
+                          title="Click to view full contact details"
+                          style={{
+                            background: isMemberExpanded ? 'rgba(6, 182, 212, 0.08)' : 'rgba(15, 23, 42, 0.6)',
+                            border: isMemberExpanded ? '1px solid rgba(6, 182, 212, 0.4)' : '1px solid rgba(255, 255, 255, 0.08)',
+                            borderRadius: '12px',
+                            padding: '16px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease',
+                            position: 'relative'
+                          }}
+                        >
+                          <div>
+                            {/* Member Header */}
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <div style={{
+                                  width: '36px',
+                                  height: '36px',
+                                  borderRadius: '50%',
+                                  background: isMemberExpanded ? 'rgba(6, 182, 212, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+                                  border: isMemberExpanded ? '1px solid var(--accent-cyan)' : '1px solid rgba(255, 255, 255, 0.12)',
+                                  color: 'var(--accent-cyan)',
+                                  fontWeight: 700,
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  fontSize: '0.92rem',
+                                  flexShrink: 0
+                                }}>
+                                  {m.name ? m.name.charAt(0) : 'E'}
+                                </div>
+                                <div>
+                                  <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#ffffff' }}>{m.name}</h4>
+                                  <span style={{ fontSize: '0.75rem', color: 'var(--accent-cyan)', fontWeight: 600 }}>{m.title}</span>
+                                </div>
+                              </div>
 
-                        {/* Skill Chips */}
-                        <div>
-                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
-                            {m.skills && m.skills.map((sk, i) => (
-                              <span key={i} style={{
-                                fontSize: '0.7rem',
-                                padding: '2px 8px',
-                                borderRadius: '10px',
-                                background: 'rgba(16, 185, 129, 0.15)',
-                                color: 'var(--accent-green)',
-                                border: '1px solid rgba(16, 185, 129, 0.3)',
-                                fontWeight: 600
-                              }}>
-                                {sk}
+                              <span style={{ fontSize: '0.7rem', color: isMemberExpanded ? 'var(--accent-cyan)' : 'var(--text-muted)', display: 'flex', alignItems: 'center' }}>
+                                {isMemberExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                               </span>
-                            ))}
+                            </div>
+
+                            {/* Department & Email (Email revealed when clicked) */}
+                            <div style={{ fontSize: '0.76rem', display: 'flex', flexDirection: 'column', gap: '5px', marginBottom: '12px' }}>
+                              <div style={{ color: 'var(--text-secondary)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <Building2 size={13} color="var(--accent-cyan)" /> {m.department || 'Engineering'}
+                              </div>
+                              {isMemberExpanded && m.email && (
+                                <div style={{ color: 'var(--accent-cyan)', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.74rem', marginTop: '2px' }}>
+                                  <Mail size={13} color="var(--accent-cyan)" /> {m.email}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Skill Chips */}
+                          <div>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                              {displaySkills.map((sk, i) => {
+                                const isMatchedSkill = selectedSkills.includes(sk);
+                                return (
+                                  <span
+                                    key={i}
+                                    style={{
+                                      fontSize: '0.7rem',
+                                      padding: '2px 8px',
+                                      borderRadius: '10px',
+                                      background: isMatchedSkill ? 'rgba(6, 182, 212, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+                                      color: isMatchedSkill ? 'var(--accent-cyan)' : 'var(--text-muted)',
+                                      border: isMatchedSkill ? '1px solid rgba(6, 182, 212, 0.4)' : '1px solid rgba(255, 255, 255, 0.1)',
+                                      fontWeight: isMatchedSkill ? 700 : 500
+                                    }}
+                                  >
+                                    {isMatchedSkill && '✓ '}
+                                    {sk}
+                                  </span>
+                                );
+                              })}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               ))}

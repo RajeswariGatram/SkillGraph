@@ -55,7 +55,6 @@ export default function App() {
       <Header
         dbStatus={dbStatus}
         onOpenAddEmployee={() => setIsAddModalOpen(true)}
-        onOpenAddSkill={() => setIsAddSkillOpen(true)}
         onOpenDirectory={() => setIsDirectoryOpen(true)}
       />
 
@@ -82,7 +81,7 @@ export default function App() {
         )}
 
         {!loading && !error && (
-          <TeamAssembler availableSkills={skills} />
+          <TeamAssembler availableSkills={skills} onOpenAddSkill={() => setIsAddSkillOpen(true)} />
         )}
       </main>
 
@@ -94,20 +93,22 @@ export default function App() {
           position: 'fixed',
           bottom: '24px',
           right: '24px',
-          width: '48px',
-          height: '48px',
+          width: '28px',
+          height: '28px',
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, var(--accent-cyan), var(--accent-blue))',
-          color: '#ffffff',
+          background: 'rgba(139, 92, 246, 0.2)',
+          color: 'var(--accent-purple)',
+          border: '1px solid rgba(139, 92, 246, 0.4)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          boxShadow: '0 6px 20px rgba(6, 182, 212, 0.4)',
+          cursor: 'pointer',
+          boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)',
           zIndex: 100,
-          border: '2px solid rgba(255, 255, 255, 0.2)'
+          transition: 'all 0.2s ease'
         }}
       >
-        <Info size={24} />
+        <Info size={15} />
       </button>
 
       {/* Add Skill Modal */}
