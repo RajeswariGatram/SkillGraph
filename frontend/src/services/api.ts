@@ -7,7 +7,13 @@ import {
   HealthCheckResponse
 } from '../types';
 
-const API_BASE = import.meta.env.VITE_API_URL || '/api/v1';
+const defaultUrl = (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
+  ? '/api/v1' 
+  : 'https://skillgraph-b2o2.onrender.com/api/v1';
+
+const envUrl = import.meta.env.VITE_API_URL;
+const rawUrl = (envUrl && envUrl.trim() !== '' ? envUrl : defaultUrl).replace(/\/+$/, '');
+const API_BASE = rawUrl.endsWith('/api/v1') ? rawUrl : `${rawUrl}/api/v1`;
 
 export async function fetchHealth(): Promise<HealthCheckResponse> {
   const res = await fetch(`${API_BASE}/health`);
