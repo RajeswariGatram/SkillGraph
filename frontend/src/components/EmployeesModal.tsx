@@ -116,18 +116,18 @@ export default function EmployeesModal({ isOpen, onClose, employees = [] }: Empl
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
                     <div style={{
-                      width: '38px',
-                      height: '38px',
+                      width: '34px',
+                      height: '34px',
                       borderRadius: '50%',
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                      background: 'rgba(255, 255, 255, 0.04)',
                       color: 'var(--accent-cyan)',
                       fontWeight: 700,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '1rem',
-                      flexShrink: 0
+                      fontSize: '0.88rem',
+                      flexShrink: 0,
+                      pointerEvents: 'none'
                     }}>
                       {emp.name ? emp.name.charAt(0) : 'E'}
                     </div>

@@ -12,24 +12,10 @@ export default function Header({ dbStatus, onOpenAddEmployee, onOpenDirectory }:
 
   return (
     <header className="glass-panel" style={{ padding: '16px 28px', margin: '20px 24px 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-      {/* Brand Title with Glass Icon */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-        <div style={{
-          background: 'rgba(6, 182, 212, 0.12)',
-          border: '1px solid rgba(6, 182, 212, 0.3)',
-          width: '42px',
-          height: '42px',
-          borderRadius: '12px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 0 16px rgba(6, 182, 212, 0.2)'
-        }}>
-          <Network size={22} color="var(--accent-cyan)" />
-        </div>
-        <div>
-          <h1 className="gradient-text" style={{ fontSize: '1.35rem', fontWeight: 800, letterSpacing: '-0.02em' }}>SkillGraph</h1>
-        </div>
+      {/* Brand Title & Logo Mark */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <Network size={26} color="var(--accent-cyan)" style={{ filter: 'drop-shadow(0 0 10px rgba(6, 182, 212, 0.4))' }} />
+        <h1 className="gradient-text" style={{ fontSize: '1.4rem', fontWeight: 800, letterSpacing: '-0.02em' }}>SkillGraph</h1>
       </div>
 
       {/* Action Controls & DB Status — Unified Glass Badges */}

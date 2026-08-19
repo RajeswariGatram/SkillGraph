@@ -322,18 +322,18 @@ export default function TeamAssembler({ availableSkills = [], onOpenAddSkill }: 
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                 <div style={{
-                                  width: '36px',
-                                  height: '36px',
+                                  width: '32px',
+                                  height: '32px',
                                   borderRadius: '50%',
-                                  background: isMemberExpanded ? 'rgba(6, 182, 212, 0.2)' : 'rgba(255, 255, 255, 0.05)',
-                                  border: isMemberExpanded ? '1px solid var(--accent-cyan)' : '1px solid rgba(255, 255, 255, 0.12)',
+                                  background: 'rgba(255, 255, 255, 0.04)',
                                   color: 'var(--accent-cyan)',
                                   fontWeight: 700,
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'center',
-                                  fontSize: '0.92rem',
-                                  flexShrink: 0
+                                  fontSize: '0.85rem',
+                                  flexShrink: 0,
+                                  pointerEvents: 'none'
                                 }}>
                                   {m.name ? m.name.charAt(0) : 'E'}
                                 </div>
