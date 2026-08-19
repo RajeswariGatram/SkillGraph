@@ -66,7 +66,7 @@ export default function App() {
             <div className="pulse" style={{ background: 'var(--accent-blue)', width: '48px', height: '48px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Database size={24} color="#fff" />
             </div>
-            <p style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>Connecting to CognoDB Cloud over Bolt Protocol...</p>
+            <p style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>Connecting to CognoDB...</p>
           </div>
         )}
 

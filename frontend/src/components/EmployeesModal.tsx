@@ -63,7 +63,7 @@ export default function EmployeesModal({ isOpen, onClose, employees = [] }: Empl
             </div>
             <div>
               <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#ffffff' }}>Employee Directory</h3>
-              <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Showing {filteredEmployees.length} registered graph nodes in CognoDB</p>
+              <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Showing all {filteredEmployees.length} registered employees</p>
             </div>
           </div>
           <button onClick={onClose} style={{ background: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
