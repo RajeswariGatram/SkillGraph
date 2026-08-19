@@ -19,50 +19,85 @@ DEPARTMENTS = [
     {"id": "dep_ds", "name": "Data Science & AI", "location": "New York"},
     {"id": "dep_devops", "name": "Cloud Platform & DevOps", "location": "Austin"},
     {"id": "dep_sec", "name": "Cybersecurity", "location": "Remote"},
+    {"id": "dep_prod", "name": "Product & Design", "location": "Seattle"},
+    {"id": "dep_mobile", "name": "Mobile & Edge Computing", "location": "Chicago"},
 ]
 
 SKILLS = [
     {"id": "sk_fastapi", "name": "FastAPI", "category": "Backend"},
     {"id": "sk_python", "name": "Python", "category": "Backend"},
+    {"id": "sk_typescript", "name": "TypeScript", "category": "Frontend"},
     {"id": "sk_react", "name": "React.js", "category": "Frontend"},
+    {"id": "sk_nextjs", "name": "Next.js", "category": "Frontend"},
     {"id": "sk_cypher", "name": "Cypher & CognoDB", "category": "Database"},
     {"id": "sk_postgres", "name": "PostgreSQL", "category": "Database"},
+    {"id": "sk_redis", "name": "Redis & Caching", "category": "Database"},
     {"id": "sk_docker", "name": "Docker & K8s", "category": "DevOps"},
+    {"id": "sk_aws", "name": "AWS & Cloud Infra", "category": "DevOps"},
     {"id": "sk_pytorch", "name": "PyTorch & LLMs", "category": "AI/ML"},
     {"id": "sk_sysarch", "name": "System Architecture", "category": "Engineering"},
     {"id": "sk_graphql", "name": "GraphQL", "category": "Backend"},
+    {"id": "sk_go", "name": "Go & Microservices", "category": "Backend"},
+    {"id": "sk_rust", "name": "Rust & Systems", "category": "Engineering"},
+    {"id": "sk_mobile", "name": "Flutter & React Native", "category": "Mobile"},
+    {"id": "sk_zerotrust", "name": "Zero-Trust Security", "category": "Security"},
     {"id": "sk_tailwind", "name": "Tailwind CSS", "category": "Frontend"}
 ]
 
 EMPLOYEES = [
-    {"id": "emp_alex", "name": "Alex Rivera", "title": "Staff Backend Engineer", "email": "alex.rivera@test.com", "dept_id": "dep_eng", "skills": ["sk_fastapi", "sk_python", "sk_cypher", "sk_sysarch"]},
-    {"id": "emp_sarah", "name": "Sarah Chen", "title": "Principal UI/UX Architect", "email": "sarah.chen@test.com", "dept_id": "dep_eng", "skills": ["sk_react", "sk_tailwind", "sk_graphql"]},
-    {"id": "emp_david", "name": "David Kim", "title": "Lead Data Scientist", "email": "david.kim@test.com", "dept_id": "dep_ds", "skills": ["sk_python", "sk_pytorch", "sk_cypher"]},
-    {"id": "emp_elena", "name": "Elena Rostova", "title": "DevOps Lead Specialist", "email": "elena.rostova@test.com", "dept_id": "dep_devops", "skills": ["sk_docker", "sk_sysarch", "sk_postgres"]},
-    {"id": "emp_marcus", "name": "Marcus Vance", "title": "Senior Graph Engineer", "email": "marcus.vance@test.com", "dept_id": "dep_eng", "skills": ["sk_cypher", "sk_fastapi", "sk_postgres"]},
-    {"id": "emp_priya", "name": "Priya Sharma", "title": "Frontend Engineer", "email": "priya.sharma@test.com", "dept_id": "dep_eng", "skills": ["sk_react", "sk_graphql"]},
-    {"id": "emp_james", "name": "James Wilson", "title": "AI Research Scientist", "email": "james.wilson@test.com", "dept_id": "dep_ds", "skills": ["sk_pytorch", "sk_python"]},
-    {"id": "emp_hannah", "name": "Hannah Abbott", "title": "Cloud Security Lead", "email": "hannah.abbott@test.com", "dept_id": "dep_sec", "skills": ["sk_docker", "sk_sysarch"]}
+    {"id": "emp_alex", "name": "Alex Rivera", "title": "Staff Backend Engineer", "email": "alex.rivera@test.com", "dept_id": "dep_eng", "skills": ["sk_fastapi", "sk_python", "sk_cypher", "sk_sysarch", "sk_postgres"]},
+    {"id": "emp_sarah", "name": "Sarah Chen", "title": "Principal UI/UX Architect", "email": "sarah.chen@test.com", "dept_id": "dep_eng", "skills": ["sk_react", "sk_typescript", "sk_tailwind", "sk_graphql", "sk_nextjs"]},
+    {"id": "emp_david", "name": "David Kim", "title": "Lead Data Scientist", "email": "david.kim@test.com", "dept_id": "dep_ds", "skills": ["sk_python", "sk_pytorch", "sk_cypher", "sk_postgres"]},
+    {"id": "emp_elena", "name": "Elena Rostova", "title": "DevOps Lead Specialist", "email": "elena.rostova@test.com", "dept_id": "dep_devops", "skills": ["sk_docker", "sk_aws", "sk_sysarch", "sk_postgres"]},
+    {"id": "emp_marcus", "name": "Marcus Vance", "title": "Senior Graph Engineer", "email": "marcus.vance@test.com", "dept_id": "dep_eng", "skills": ["sk_cypher", "sk_fastapi", "sk_postgres", "sk_redis"]},
+    {"id": "emp_priya", "name": "Priya Sharma", "title": "Frontend Engineer", "email": "priya.sharma@test.com", "dept_id": "dep_eng", "skills": ["sk_react", "sk_typescript", "sk_graphql", "sk_tailwind"]},
+    {"id": "emp_james", "name": "James Wilson", "title": "AI Research Scientist", "email": "james.wilson@test.com", "dept_id": "dep_ds", "skills": ["sk_pytorch", "sk_python", "sk_fastapi"]},
+    {"id": "emp_hannah", "name": "Hannah Abbott", "title": "Cloud Security Lead", "email": "hannah.abbott@test.com", "dept_id": "dep_sec", "skills": ["sk_docker", "sk_zerotrust", "sk_sysarch", "sk_aws"]},
+    {"id": "emp_liam", "name": "Liam O'Connor", "title": "Senior Go Systems Engineer", "email": "liam.oconnor@test.com", "dept_id": "dep_eng", "skills": ["sk_go", "sk_sysarch", "sk_docker", "sk_redis"]},
+    {"id": "emp_maya", "name": "Maya Lin", "title": "Staff Mobile Engineer", "email": "maya.lin@test.com", "dept_id": "dep_mobile", "skills": ["sk_mobile", "sk_typescript", "sk_graphql"]},
+    {"id": "emp_carlos", "name": "Carlos Mendez", "title": "Full-Stack Engineer", "email": "carlos.mendez@test.com", "dept_id": "dep_eng", "skills": ["sk_fastapi", "sk_react", "sk_typescript", "sk_postgres"]},
+    {"id": "emp_aisha", "name": "Aisha Patel", "title": "ML Platform Engineer", "email": "aisha.patel@test.com", "dept_id": "dep_ds", "skills": ["sk_pytorch", "sk_python", "sk_docker", "sk_aws"]},
+    {"id": "emp_victor", "name": "Victor Hugo", "title": "Lead Product Designer", "email": "victor.hugo@test.com", "dept_id": "dep_prod", "skills": ["sk_react", "sk_tailwind"]},
+    {"id": "emp_sophie", "name": "Sophie Taylor", "title": "Site Reliability Engineer", "email": "sophie.taylor@test.com", "dept_id": "dep_devops", "skills": ["sk_aws", "sk_docker", "sk_go", "sk_redis"]},
+    {"id": "emp_kenji", "name": "Kenji Sato", "title": "Rust Systems Architect", "email": "kenji.sato@test.com", "dept_id": "dep_eng", "skills": ["sk_rust", "sk_sysarch", "sk_redis"]},
+    {"id": "emp_rachel", "name": "Rachel Green", "title": "Database Performance Engineer", "email": "rachel.green@test.com", "dept_id": "dep_eng", "skills": ["sk_postgres", "sk_cypher", "sk_redis"]},
+    {"id": "emp_omar", "name": "Omar Farooq", "title": "Application Security Specialist", "email": "omar.farooq@test.com", "dept_id": "dep_sec", "skills": ["sk_zerotrust", "sk_python", "sk_fastapi"]},
+    {"id": "emp_emily", "name": "Emily Zhang", "title": "Growth & Product Lead", "email": "emily.zhang@test.com", "dept_id": "dep_prod", "skills": ["sk_typescript", "sk_nextjs", "sk_react"]}
 ]
 
 PROJECTS = [
     {"id": "proj_cognoscan", "name": "CognoDB Graph Migration", "status": "Active", "tech": ["Cypher & CognoDB", "FastAPI", "Docker & K8s"]},
     {"id": "proj_airadar", "name": "AI Talent Radar", "status": "Active", "tech": ["PyTorch & LLMs", "React.js", "FastAPI"]},
-    {"id": "proj_cloudsec", "name": "Zero-Trust Cloud Mesh", "status": "Planning", "tech": ["Docker & K8s", "System Architecture"]},
-    {"id": "proj_designsys", "name": "Next-Gen Design System", "status": "Completed", "tech": ["React.js", "Tailwind CSS"]}
+    {"id": "proj_cloudsec", "name": "Zero-Trust Cloud Mesh", "status": "Planning", "tech": ["Docker & K8s", "Zero-Trust Security", "System Architecture"]},
+    {"id": "proj_designsys", "name": "Next-Gen Design System", "status": "Completed", "tech": ["React.js", "TypeScript", "Tailwind CSS"]},
+    {"id": "proj_mobileapp", "name": "Enterprise Field App", "status": "Active", "tech": ["Flutter & React Native", "GraphQL", "TypeScript"]},
+    {"id": "proj_microservices", "name": "Go Event Mesh Pipeline", "status": "Active", "tech": ["Go & Microservices", "Redis & Caching", "AWS & Cloud Infra"]},
+    {"id": "proj_rustcore", "name": "High-Throughput Rust Engine", "status": "Planning", "tech": ["Rust & Systems", "System Architecture"]},
+    {"id": "proj_nextportal", "name": "Customer Self-Service Portal", "status": "Active", "tech": ["Next.js", "TypeScript", "FastAPI"]}
 ]
 
 EMPLOYEE_PROJECTS = [
     {"emp_id": "emp_alex", "proj_id": "proj_cognoscan", "role": "Tech Lead"},
     {"emp_id": "emp_marcus", "proj_id": "proj_cognoscan", "role": "Core Graph Developer"},
     {"emp_id": "emp_elena", "proj_id": "proj_cognoscan", "role": "DevOps Integrator"},
+    {"emp_id": "emp_rachel", "proj_id": "proj_cognoscan", "role": "Database Tuning Lead"},
     {"emp_id": "emp_david", "proj_id": "proj_airadar", "role": "AI Architect"},
     {"emp_id": "emp_alex", "proj_id": "proj_airadar", "role": "API Backend Lead"},
     {"emp_id": "emp_sarah", "proj_id": "proj_airadar", "role": "Frontend Designer"},
+    {"emp_id": "emp_aisha", "proj_id": "proj_airadar", "role": "ML Infra Engineer"},
     {"emp_id": "emp_sarah", "proj_id": "proj_designsys", "role": "Design Lead"},
     {"emp_id": "emp_priya", "proj_id": "proj_designsys", "role": "UI Engineer"},
+    {"emp_id": "emp_victor", "proj_id": "proj_designsys", "role": "UX Lead"},
     {"emp_id": "emp_hannah", "proj_id": "proj_cloudsec", "role": "Security Architect"},
-    {"emp_id": "emp_elena", "proj_id": "proj_cloudsec", "role": "Infrastructure Engineer"}
+    {"emp_id": "emp_elena", "proj_id": "proj_cloudsec", "role": "Infrastructure Engineer"},
+    {"emp_id": "emp_omar", "proj_id": "proj_cloudsec", "role": "SecOps Tester"},
+    {"emp_id": "emp_maya", "proj_id": "proj_mobileapp", "role": "Mobile Lead Architect"},
+    {"emp_id": "emp_carlos", "proj_id": "proj_mobileapp", "role": "Full-Stack Integrator"},
+    {"emp_id": "emp_liam", "proj_id": "proj_microservices", "role": "Systems Lead"},
+    {"emp_id": "emp_sophie", "proj_id": "proj_microservices", "role": "SRE Integrator"},
+    {"emp_id": "emp_kenji", "proj_id": "proj_rustcore", "role": "Engine Architect"},
+    {"emp_id": "emp_emily", "proj_id": "proj_nextportal", "role": "Product Owner"},
+    {"emp_id": "emp_carlos", "proj_id": "proj_nextportal", "role": "Lead Web Developer"}
 ]
 
 COLLABORATIONS = [
@@ -71,7 +106,14 @@ COLLABORATIONS = [
     {"emp1": "emp_alex", "emp2": "emp_david", "count": 2},
     {"emp1": "emp_sarah", "emp2": "emp_priya", "count": 5},
     {"emp1": "emp_david", "emp2": "emp_james", "count": 6},
-    {"emp1": "emp_elena", "emp2": "emp_hannah", "count": 3}
+    {"emp1": "emp_david", "emp2": "emp_aisha", "count": 4},
+    {"emp1": "emp_elena", "emp2": "emp_hannah", "count": 3},
+    {"emp1": "emp_elena", "emp2": "emp_sophie", "count": 5},
+    {"emp1": "emp_liam", "emp2": "emp_kenji", "count": 3},
+    {"emp1": "emp_maya", "emp2": "emp_carlos", "count": 4},
+    {"emp1": "emp_victor", "emp2": "emp_sarah", "count": 6},
+    {"emp1": "emp_hannah", "emp2": "emp_omar", "count": 4},
+    {"emp1": "emp_marcus", "emp2": "emp_rachel", "count": 5}
 ]
 
 async def seed_database():
@@ -198,3 +240,4 @@ async def seed_database():
 
 if __name__ == "__main__":
     asyncio.run(seed_database())
+
