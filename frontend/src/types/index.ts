@@ -8,9 +8,19 @@ export interface Skill {
 export interface Employee {
   id: string;
   name: string;
-  role: string;
+  title?: string;
+  role?: string;
   department: string;
+  email?: string;
   skills: string[];
+}
+
+export interface CreateEmployeeInput {
+  name: string;
+  title: string;
+  email: string;
+  department_id: string;
+  skill_ids?: string[];
 }
 
 export interface GraphNode {

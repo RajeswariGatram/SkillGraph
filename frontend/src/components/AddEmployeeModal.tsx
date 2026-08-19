@@ -48,10 +48,11 @@ export default function AddEmployeeModal({ isOpen, onClose, skills = [], onSucce
     try {
       await createEmployee({
         name,
-        role: title,
-        department: departmentId,
-        skills: selectedSkills
-      } as any);
+        title,
+        email,
+        department_id: departmentId,
+        skill_ids: selectedSkills
+      });
       // Reset form
       setName('');
       setTitle('');

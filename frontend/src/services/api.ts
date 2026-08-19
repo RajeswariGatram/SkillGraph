@@ -4,6 +4,7 @@ import {
   GraphPayload,
   TeamAssemblyResult,
   KnowledgeSilo,
+  CreateEmployeeInput,
   HealthCheckResponse
 } from '../types';
 
@@ -47,7 +48,7 @@ export async function fetchEmployees(): Promise<Employee[]> {
   return res.json();
 }
 
-export async function createEmployee(payload: Omit<Employee, 'id'> | Employee): Promise<Employee> {
+export async function createEmployee(payload: CreateEmployeeInput | Omit<Employee, 'id'> | Employee): Promise<Employee> {
   const res = await fetch(`${API_BASE}/employees`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
