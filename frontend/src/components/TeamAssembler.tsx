@@ -33,7 +33,15 @@ export default function TeamAssembler({ availableSkills = [], onOpenAddSkill }: 
   const [result, setResult] = useState<TeamAssembleResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const [activeMemberKey, setActiveMemberKey] = useState<string | null>(null);
+  const [expandedTeamOptionIndices, setExpandedTeamOptionIndices] = useState<number[]>([]);
+
+  const toggleTeamOptionExpanded = (teamIdx: number) => {
+    if (expandedTeamOptionIndices.includes(teamIdx)) {
+      setExpandedTeamOptionIndices(expandedTeamOptionIndices.filter(i => i !== teamIdx));
+    } else {
+      setExpandedTeamOptionIndices([...expandedTeamOptionIndices, teamIdx]);
+    }
+  };
 
   const toggleSkill = (skillName: string) => {
     if (selectedSkills.includes(skillName)) {
@@ -224,21 +232,20 @@ export default function TeamAssembler({ availableSkills = [], onOpenAddSkill }: 
               onClick={() => setIsExpanded(!isExpanded)}
               title={isExpanded ? "Collapse Skills" : "Expand Skills"}
               style={{
-                width: '36px',
-                height: '36px',
+                width: '32px',
+                height: '32px',
                 borderRadius: '50%',
-                background: 'rgba(6, 182, 212, 0.15)',
-                border: '1px solid rgba(6, 182, 212, 0.35)',
-                color: 'var(--accent-cyan)',
+                background: isExpanded ? 'rgba(6, 182, 212, 0.15)' : 'rgba(255, 255, 255, 0.04)',
+                border: isExpanded ? '1px solid rgba(6, 182, 212, 0.35)' : '1px solid rgba(255, 255, 255, 0.1)',
+                color: isExpanded ? 'var(--accent-cyan)' : 'var(--text-muted)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: 'pointer',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
                 transition: 'all 0.2s ease'
               }}
             >
-              {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+              {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
             </button>
           )}
         </div>
@@ -284,43 +291,61 @@ export default function TeamAssembler({ availableSkills = [], onOpenAddSkill }: 
             </div>
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(480px, 1fr))', gap: '20px' }}>
-              {result.recommended_partnerships.map((path, idx) => (
-                <div key={idx} className="glow-card" style={{ padding: '22px' }}>
-                  {/* Team Option Header */}
-                  <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--accent-cyan)', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <Users size={15} /> #{idx + 1}
-                  </div>
+              {result.recommended_partnerships.map((path, idx) => {
+                const isTeamExpanded = expandedTeamOptionIndices.includes(idx);
+                return (
+                  <div key={idx} className="glow-card" style={{ padding: '22px' }}>
+                    {/* Team Option Header with Expand/Collapse Toggle */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+                      <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--accent-cyan)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <Users size={15} /> #{idx + 1}
+                      </div>
 
-                  {/* Teammate Cards Grid */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
-                    {path.members && path.members.map((m, mIdx) => {
-                      const memberKey = `${idx}-${mIdx}-${m.id || m.name}`;
-                      const isMemberExpanded = activeMemberKey === memberKey;
-                      const matchedSkills = m.skills?.filter(sk => selectedSkills.includes(sk)) || [];
-                      const displaySkills = isMemberExpanded ? (m.skills || []) : (matchedSkills.length > 0 ? matchedSkills : (m.skills || []));
+                      <button
+                        type="button"
+                        onClick={() => toggleTeamOptionExpanded(idx)}
+                        style={{
+                          background: isTeamExpanded ? 'rgba(6, 182, 212, 0.15)' : 'rgba(255, 255, 255, 0.04)',
+                          border: isTeamExpanded ? '1px solid rgba(6, 182, 212, 0.35)' : '1px solid rgba(255, 255, 255, 0.1)',
+                          borderRadius: '50%',
+                          width: '26px',
+                          height: '26px',
+                          color: isTeamExpanded ? 'var(--accent-cyan)' : 'var(--text-muted)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease'
+                        }}
+                        title={isTeamExpanded ? "Collapse Team Details" : "Expand Team Details"}
+                      >
+                        {isTeamExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                      </button>
+                    </div>
 
-                      return (
-                        <div
-                          key={memberKey}
-                          onClick={() => setActiveMemberKey(isMemberExpanded ? null : memberKey)}
-                          title="Click to view full contact details"
-                          style={{
-                            background: isMemberExpanded ? 'rgba(6, 182, 212, 0.08)' : 'rgba(15, 23, 42, 0.6)',
-                            border: isMemberExpanded ? '1px solid rgba(6, 182, 212, 0.4)' : '1px solid rgba(255, 255, 255, 0.08)',
-                            borderRadius: '12px',
-                            padding: '16px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s ease',
-                            position: 'relative'
-                          }}
-                        >
-                          <div>
-                            {/* Member Header */}
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    {/* Teammate Cards Grid */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
+                      {path.members && path.members.map((m, mIdx) => {
+                        const matchedSkills = m.skills?.filter(sk => selectedSkills.includes(sk)) || [];
+                        const displaySkills = isTeamExpanded ? (m.skills || []) : (matchedSkills.length > 0 ? matchedSkills : (m.skills || []));
+
+                        return (
+                          <div
+                            key={m.id || mIdx}
+                            style={{
+                              background: isTeamExpanded ? 'rgba(6, 182, 212, 0.06)' : 'rgba(15, 23, 42, 0.6)',
+                              border: isTeamExpanded ? '1px solid rgba(6, 182, 212, 0.3)' : '1px solid rgba(255, 255, 255, 0.08)',
+                              borderRadius: '12px',
+                              padding: '16px',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'space-between',
+                              transition: 'all 0.2s ease'
+                            }}
+                          >
+                            <div>
+                              {/* Member Header */}
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
                                 <div style={{
                                   width: '32px',
                                   height: '32px',
@@ -343,55 +368,51 @@ export default function TeamAssembler({ availableSkills = [], onOpenAddSkill }: 
                                 </div>
                               </div>
 
-                              <span style={{ fontSize: '0.7rem', color: isMemberExpanded ? 'var(--accent-cyan)' : 'var(--text-muted)', display: 'flex', alignItems: 'center' }}>
-                                {isMemberExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-                              </span>
-                            </div>
-
-                            {/* Department & Email (Email revealed when clicked) */}
-                            <div style={{ fontSize: '0.76rem', display: 'flex', flexDirection: 'column', gap: '5px', marginBottom: '12px' }}>
-                              <div style={{ color: 'var(--text-secondary)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                <Building2 size={13} color="var(--accent-cyan)" /> {m.department || 'Engineering'}
-                              </div>
-                              {isMemberExpanded && m.email && (
-                                <div style={{ color: 'var(--accent-cyan)', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.74rem', marginTop: '2px' }}>
-                                  <Mail size={13} color="var(--accent-cyan)" /> {m.email}
+                              {/* Department & Email (Email revealed when Team is expanded) */}
+                              <div style={{ fontSize: '0.76rem', display: 'flex', flexDirection: 'column', gap: '5px', marginBottom: '12px' }}>
+                                <div style={{ color: 'var(--text-secondary)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                  <Building2 size={13} color="var(--accent-cyan)" /> {m.department || 'Engineering'}
                                 </div>
-                              )}
+                                {isTeamExpanded && m.email && (
+                                  <div style={{ color: 'var(--accent-cyan)', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.74rem', marginTop: '2px' }}>
+                                    <Mail size={13} color="var(--accent-cyan)" /> {m.email}
+                                  </div>
+                                )}
+                              </div>
                             </div>
-                          </div>
 
-                          {/* Skill Chips */}
-                          <div>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
-                              {displaySkills.map((sk, i) => {
-                                const isMatchedSkill = selectedSkills.includes(sk);
-                                return (
-                                  <span
-                                    key={i}
-                                    style={{
-                                      fontSize: '0.7rem',
-                                      padding: '2px 8px',
-                                      borderRadius: '10px',
-                                      background: isMatchedSkill ? 'rgba(6, 182, 212, 0.2)' : 'rgba(255, 255, 255, 0.05)',
-                                      color: isMatchedSkill ? 'var(--accent-cyan)' : 'var(--text-muted)',
-                                      border: isMatchedSkill ? '1px solid rgba(6, 182, 212, 0.4)' : '1px solid rgba(255, 255, 255, 0.1)',
-                                      fontWeight: isMatchedSkill ? 700 : 500
-                                    }}
-                                  >
-                                    {isMatchedSkill && '✓ '}
-                                    {sk}
-                                  </span>
-                                );
-                              })}
+                            {/* Skill Chips */}
+                            <div>
+                              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                                {displaySkills.map((sk, i) => {
+                                  const isMatchedSkill = selectedSkills.includes(sk);
+                                  return (
+                                    <span
+                                      key={i}
+                                      style={{
+                                        fontSize: '0.7rem',
+                                        padding: '2px 8px',
+                                        borderRadius: '10px',
+                                        background: isMatchedSkill ? 'rgba(6, 182, 212, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+                                        color: isMatchedSkill ? 'var(--accent-cyan)' : 'var(--text-muted)',
+                                        border: isMatchedSkill ? '1px solid rgba(6, 182, 212, 0.4)' : '1px solid rgba(255, 255, 255, 0.1)',
+                                        fontWeight: isMatchedSkill ? 700 : 500
+                                      }}
+                                    >
+                                      {isMatchedSkill && '✓ '}
+                                      {sk}
+                                    </span>
+                                  );
+                                })}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
