@@ -50,50 +50,59 @@ export default function EmployeesModal({ isOpen, onClose, employees = [] }: Empl
         maxHeight: '85vh',
         display: 'flex',
         flexDirection: 'column',
-        padding: '28px',
+        padding: 0,
         position: 'relative',
         boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5)',
-        border: '1px solid var(--border-color)'
+        border: '1px solid var(--border-color)',
+        overflow: 'hidden'
       }}>
-        {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ background: 'linear-gradient(135deg, var(--accent-purple), var(--accent-blue))', padding: '10px', borderRadius: '10px', color: '#fff' }}>
-              <Users size={22} />
+        {/* Sticky Header & Search Bar */}
+        <div style={{
+          padding: '24px 28px 16px',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          background: 'rgba(15, 23, 42, 0.95)',
+          backdropFilter: 'blur(10px)',
+          flexShrink: 0
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ background: 'linear-gradient(135deg, var(--accent-purple), var(--accent-blue))', padding: '10px', borderRadius: '10px', color: '#fff' }}>
+                <Users size={22} />
+              </div>
+              <div>
+                <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#ffffff' }}>Employee Directory</h3>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Showing all {filteredEmployees.length} registered employees</p>
+              </div>
             </div>
-            <div>
-              <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#ffffff' }}>Employee Directory</h3>
-              <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Showing all {filteredEmployees.length} registered employees</p>
-            </div>
+            <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.05)', color: 'var(--text-muted)', cursor: 'pointer', padding: '6px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <X size={20} />
+            </button>
           </div>
-          <button onClick={onClose} style={{ background: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
-            <X size={22} />
-          </button>
-        </div>
 
-        {/* Search Input Bar */}
-        <div style={{ position: 'relative', marginBottom: '20px' }}>
-          <Search size={18} color="var(--text-muted)" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
-          <input
-            type="text"
-            placeholder="Search employees by name, title, department, or skill (e.g. FastAPI, Cypher)..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '12px 14px 12px 42px',
-              borderRadius: '10px',
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid var(--border-color)',
-              color: '#ffffff',
-              fontSize: '0.9rem',
-              outline: 'none'
-            }}
-          />
+          {/* Search Input Bar */}
+          <div style={{ position: 'relative' }}>
+            <Search size={18} color="var(--text-muted)" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
+            <input
+              type="text"
+              placeholder="Search employees by name, title, department, or skill (e.g. FastAPI, Cypher)..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '12px 14px 12px 42px',
+                borderRadius: '10px',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid var(--border-color)',
+                color: '#ffffff',
+                fontSize: '0.9rem',
+                outline: 'none'
+              }}
+            />
+          </div>
         </div>
 
         {/* Employees Cards Scrollable Container */}
-        <div style={{ flex: 1, overflowY: 'auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '16px', paddingRight: '4px' }}>
+        <div style={{ flex: 1, overflowY: 'auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '16px', padding: '20px 28px 28px' }}>
           {filteredEmployees.length === 0 ? (
             <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>
               No employees matched your search term.

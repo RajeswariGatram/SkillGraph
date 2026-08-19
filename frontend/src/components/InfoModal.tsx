@@ -30,14 +30,23 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
         maxHeight: '85vh',
         display: 'flex',
         flexDirection: 'column',
-        padding: '28px',
+        padding: 0,
         position: 'relative',
         boxShadow: '0 25px 60px rgba(0, 0, 0, 0.6)',
         border: '1px solid var(--accent-cyan)',
-        overflowY: 'auto'
+        overflow: 'hidden'
       }}>
-        {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '22px' }}>
+        {/* Sticky Header */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '24px 28px 18px',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          background: 'rgba(15, 23, 42, 0.95)',
+          backdropFilter: 'blur(10px)',
+          flexShrink: 0
+        }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{ background: 'linear-gradient(135deg, var(--accent-cyan), var(--accent-blue))', padding: '10px', borderRadius: '12px', color: '#fff' }}>
               <Info size={22} />
@@ -47,13 +56,13 @@ export default function InfoModal({ isOpen, onClose }: InfoModalProps) {
               <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>Enterprise Talent & Team Recommendation Engine</p>
             </div>
           </div>
-          <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.05)', color: 'var(--text-muted)', cursor: 'pointer', padding: '6px', borderRadius: '8px' }}>
+          <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.05)', color: 'var(--text-muted)', cursor: 'pointer', padding: '6px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
             <X size={20} />
           </button>
         </div>
 
-        {/* Content Body */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', fontSize: '0.88rem', lineHeight: 1.6, color: '#e2e8f0' }}>
+        {/* Content Body (Scrollable) */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', fontSize: '0.88rem', lineHeight: 1.6, color: '#e2e8f0', padding: '24px 28px 28px', overflowY: 'auto', flex: 1 }}>
           
           {/* Section 1: What SkillGraph Serves */}
           <div style={{ background: 'rgba(6, 182, 212, 0.08)', padding: '18px', borderRadius: '12px', border: '1px solid rgba(6, 182, 212, 0.2)' }}>
